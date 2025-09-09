@@ -84,4 +84,4 @@ Year Effect: Technological shifts (engine changes, regulations) impact race dyna
 
 ### Results
 
-Random Forest delivered the most balanced performance. Feature importance confirmed grid position + pit strategy as dominant factors. 
+Random Forest delivered the most balanced performance. Feature importance confirmed (grid position + pit strategy) as dominant factors. 
