@@ -22,17 +22,19 @@ The project aims to provide a comprehensive analysis of Formula 1 datasets, expl
 
 ## Data Exploration 
 
-Data Sources: Historical F1 datasets (via Kaggle).
+### Data Sources: 
+Historical F1 datasets (via Kaggle).
 
-Key tables: results, races, pit_stops, lap_times, qualifying.
+### Key tables: 
+results, races, pit_stops, lap_times, qualifying.
 
 ## Data Cleaning & Preparation
 
-Removed incomplete/missing values.
+-- Removed incomplete/missing values.
 
-Engineered race-level and driver-level features.
+-- Engineered race-level and driver-level features.
 
-Merged multiple datasets for a consolidated view.
+-- Merged multiple datasets for a consolidated view.
 
 ## Exploratory Insights
 
