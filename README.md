@@ -18,3 +18,70 @@ This project replicates that approach by answering two core questions:
 
 2. Can we build a machine learning model to predict podium finishes based on historical data?
 
+### Objective 
+
+The project aims to provide a comprehensive analysis of Formula 1 datasets, exploring metrics such as lap times, pit stops, and driver performance. It further focuses on identifying the factors that drive podium success and quantifying their impact. Finally, it builds a predictive model to estimate whether a driver will finish in the Top 3 based on race conditions and historical data. 
+
+### Data Exploration 
+
+Data Sources: Historical F1 datasets (via Kaggle).
+
+Key tables: results, races, pit_stops, lap_times, qualifying.
+
+### Data Cleaning & Preparation
+
+Removed incomplete/missing values.
+
+Engineered race-level and driver-level features.
+
+Merged multiple datasets for a consolidated view.
+
+### Exploratory Insights
+
+Grid Position: Starting higher strongly correlates with finishing on the podium.
+
+Pit Stop Strategy: Fewer, faster pit stops are a major differentiator.
+
+Lap Consistency: Drivers with lower lap variance tend to climb positions.
+
+Year Effect: Technological shifts (engine changes, regulations) impact race dynamics.
+
+### Analytical Findings
+
+1. Grid Position Matters: Drivers starting in the Top 5 account for over 70% of podiums.
+
+2. Pit Stop Efficiency: Each additional pit stop reduces podium probability by ~15%.
+
+3. Consistency > Speed: The driver with the absolute fastest lap is not always the podium finisher.
+
+4. Resources: Constructor influence (budget, engineering) indirectly drives success.
+
+### Predictive Modeling
+
+**Features Used:** 
+
+-- Grid position
+
+-- Number & duration of pit stops
+
+-- Average and fastest lap times
+
+-- Constructor (team) strength
+
+-- Historical performance metrics
+
+**Models Tested:**
+
+-- Logistic Regression (baseline)
+
+-- Random Forest
+
+**Model Evaluation**
+
+-- Metrics: Accuracy, Precision, Recall, F1 Score
+
+-- Confusion Matrix to handle class imbalance
+
+**Results**
+
+Random Forest delivered the most balanced performance. Feature importance confirmed grid position + pit strategy as dominant factors. 
