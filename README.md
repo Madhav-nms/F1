@@ -6,7 +6,7 @@
 
 ## Formula 1: Data Analysis and Podium Prediction 
 
-***Project Overview***
+**Project Overview**
 
 Formula 1 (F1) is the highest level of international motorsport, where drivers compete in the fastest single seater cars. Races combine speed, strategy, and technology. 
 
