@@ -82,6 +82,6 @@ Year Effect: Technological shifts (engine changes, regulations) impact race dyna
 
 -- Confusion Matrix to handle class imbalance
 
-### Results
+## Results
 
 Random Forest delivered the most balanced performance. Feature importance confirmed (grid position + pit strategy) as dominant factors. 
