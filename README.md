@@ -38,13 +38,13 @@ results, races, pit_stops, lap_times, qualifying.
 
 ## Exploratory Insights
 
-Grid Position: Starting higher strongly correlates with finishing on the podium.
+1. Grid Position: Starting higher strongly correlates with finishing on the podium.
 
-Pit Stop Strategy: Fewer, faster pit stops are a major differentiator.
+2. Pit Stop Strategy: Fewer, faster pit stops are a major differentiator.
 
-Lap Consistency: Drivers with lower lap variance tend to climb positions.
+3. Lap Consistency: Drivers with lower lap variance tend to climb positions.
 
-Year Effect: Technological shifts (engine changes, regulations) impact race dynamics.
+4. Year Effect: Technological shifts (engine changes, regulations) impact race dynamics.
 
 ## Analytical Findings
 
