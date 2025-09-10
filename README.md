@@ -72,7 +72,7 @@ results, races, pit_stops, lap_times, qualifying.
 
 ### Models Tested:
 
--- Logistic Regression (baseline)
+-- Logistic Regression
 
 -- Random Forest
 
@@ -84,4 +84,4 @@ results, races, pit_stops, lap_times, qualifying.
 
 ## Results
 
-Random Forest delivered the most balanced performance. Feature importance confirmed (grid position + pit strategy) as dominant factors. 
+This project explored Formula 1 race data to understand what drives podium success and whether podiums can be predicted using machine learning. The analysis showed that grid position, constructor reliability (low DNF rates), driver pace (fastest laps), and race strategy are the strongest factors influencing podium chances. Notably, while starting near the front increases the odds, comeback wins from lower grid positions prove that strategy and skill also play key roles. To test predictability, models were built using 15,000+ race entries. Logistic Regression achieved ~80% accuracy with high recall (good at catching most podiums), while Random Forest reached ~84% accuracy with better precision (fewer false alarms). Overall, the results confirm that podium finishes can be explained and reasonably predicted using historical data, with trade-offs between broader detection and precise prediction.
