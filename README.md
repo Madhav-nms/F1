@@ -4,84 +4,105 @@
   <img src="2025_F1.jpg" alt="F1 Logo" width="750"/>
 </p> 
 
-## Project Overview
+## Executive Summary
 
-Formula 1 (F1) is the highest level of international motorsport, where drivers compete in the fastest single seater cars. Races combine speed, strategy, and technology. 
+Built a machine-learning pipeline on **multi-season F1 data** to predict **Top-3 podium finishes**. After cleaning/merging, the final feature table had **15,806 rows × 12 features**.  
+On a held-out test set:
 
-In Formula 1, the margin between winning and losing is often measured in fractions of a second. Teams spend millions analyzing data to optimize pit strategies, tire management, and driver performance.
+- **Logistic Regression** → **Accuracy: 0.80**, **Precision: 0.523**, **Recall: 0.854**, **F1 Score: 0.648**, **ROC-AUC: 0.889**  
+- **Random Forest** → **Accuracy: 0.838**, **Precision: 0.647**, **Recall: 0.542**, **F1 Score: 0.590**, **ROC-AUC: 0.868**
 
-This project replicates that approach by answering two core questions:
+**Trade-off:** Logistic Regression catches more true podiums (higher recall); Random Forest is stricter (higher precision). Insights emphasize **grid position** and **pit efficiency** as the biggest levers.
 
-1. What factors most influence a driver’s chance of finishing on the podium?
-
-2. Can we build a machine learning model to predict podium finishes based on historical data?
+---
 
 ## Objective 
 
-The project aims to provide a comprehensive analysis of Formula 1 datasets, exploring metrics such as lap times, pit stops, and driver performance. It further focuses on identifying the factors that drive podium success and quantifying their impact. Finally, it builds a predictive model to estimate whether a driver will finish in the Top 3 based on race conditions and historical data. 
+- **Predict** whether a driver finishes on the **podium (P1–P3)**.  
+- **Explain** the factors that move podium probability the most.  
+- **Translate** model outputs into **race-strategy ideas**.
 
-## Data Exploration 
+--- 
 
-### Data Sources: 
-Historical F1 datasets (via Kaggle).
+## Data Overview
 
-### Key tables: 
-results, races, pit_stops, lap_times, qualifying.
+**Source:** [Formula 1 World Championship (1950 - 2024) ](https://www.kaggle.com/datasets/rohanrao/formula-1-world-championship-1950-2020)
 
-## Data Cleaning & Preparation
 
--- Removed incomplete/missing values.
+Source tables loaded: **14 CSVs** (e.g., `results`, `races`, `drivers`, `constructors`, `circuits`, `pit_stops`, `qualifying`, `status`).  
+Key row counts seen in the notebook:
+- `results` **26,759 rows**  
+- `pit_stops` **11,371 rows**  
+- `qualifying` **10,494 rows**  
+- Final merged/cleaned **15,806 rows**, **12 features**
 
--- Engineered race-level and driver-level features.
 
--- Merged multiple datasets for a consolidated view.
+Train / Test split (by race): **12,644 / 3,162**
 
-## Exploratory Insights
+**Target:** `podium = 1 if finish_position <= 3 else 0`
 
-1. Grid Position: Starting higher strongly correlates with finishing on the podium.
+**Feature examples** (engineered & joined):
+- `grid_position` (starting slot)  
+- `num_pit_stops`, `avg_pit_ms` (pit-stop count & average time)  
+- `best_qual_sec` (proxy for one-lap pace)  
+- `year` (captures regulation/era effects)  
+- `positions_gained` (finish − grid; negative → positions gained)
 
-2. Pit Stop Strategy: Fewer, faster pit stops are a major differentiator.
+---
 
-3. Lap Consistency: Drivers with lower lap variance tend to climb positions.
+## Modeling & Results
 
-4. Year Effect: Technological shifts (engine changes, regulations) impact race dynamics.
+Models:
+- **Logistic Regression** (interpretable baseline)  
+- **Random Forest** (non-linear interactions)
 
-## Analytical Findings
+**Held-out test:**
+- **Logistic Regression**  
+  - Accuracy **0.801** · Precision **0.523** · Recall **0.854** · F1 **0.648** · ROC-AUC **0.889**
+- **Random Forest**  
+  - Accuracy **0.838** · Precision **0.647** · Recall **0.542** · F1 **0.590** · ROC-AUC **0.868**
 
-1. Grid Position Matters: Drivers starting in the Top 5 account for over 70% of podiums.
+**Interpretation:**  
+- Use **LogReg** when you want to **maximize captures** of potential podiums (high recall).  
+- Use **RF** when you need **fewer false positives** (higher precision) for conservative strategies.
 
-2. Pit Stop Efficiency: Each additional pit stop reduces podium probability by ~15%.
+---
 
-3. Consistency > Speed: The driver with the absolute fastest lap is not always the podium finisher.
+## Key Insights
 
-4. Resources: Constructor influence (budget, engineering) indirectly drives success.
+1. **Starting grid dominates** — front-row starters have much higher podium odds.  
+2. **Pit efficiency matters** — **more stops** and **slower average pit times** reduce podium probability.  
+3. **Qualifying pace translates** — faster `best_qual_sec` boosts podium chances.  
+4. **Season/era effects (`year`)** — proxy for regulation cycles and team dominance; not causal by itself, but informative.  
+5. **Positions gained** — consistent gainers convert more podiums **when other factors align**.
 
-## Predictive Modeling
+---
 
-### Features Used: 
+## Strategy Ideas (Turning insights into action)
 
--- Grid position
+- **Quali priority:** bias setup/tyres for one-lap pace to improve grid slot.  
+- **Pit-lane excellence:** rehearse stops; aim to reduce **avg pit time** and avoid extra stops under SC/VSC.  
+- **Threshold play:** from **P1–P4**, a cleaner **one-stop** (when tyre deg allows) often preserves podium odds.  
+- **Risk bands:** use model outputs to tag **High / Medium / Low** podium probability and pick undercut/overcut tactics accordingly.
 
--- Number & duration of pit stops
+--- 
 
--- Average and fastest lap times
+## Results (Quick Take)
 
--- Constructor (team) strength
+**Test set:** 3,162 rows (split by race to avoid leakage)
 
--- Historical performance metrics
+| Model              | Accuracy | Precision (Podium) | Recall (Podium) | F1 (Podium) | ROC-AUC |
+|--------------------|:-------:|:------------------:|:---------------:|:-----------:|:------:|
+| Logistic Regression | 0.801   | 0.523              | **0.854**       | 0.648       | **0.889** |
+| Random Forest       | **0.838** | **0.647**          | 0.542           | 0.590       | 0.868   |
 
-### Models Tested:
+**What this means**
+- **LogReg** captures more true podiums (high recall) → good when missing a podium call is costly.  
+- **Random Forest** is stricter (higher precision) → good when you want fewer false positives.  
+- Across models, **grid position** and **pit efficiency** consistently drive podium outcomes.
 
--- Logistic Regression
+**Decision guide**
+- Optimize for **coverage** (find every potential podium): use **LogReg**, threshold ≈ **0.40–0.50**.  
+- Optimize for **confidence** (call podiums only when likely): use **RF**, threshold ≈ **0.55–0.65**.
 
--- Random Forest
-
-### Model Evaluation
-
--- Metrics: Accuracy, Precision, Recall, F1 Score
-
--- Confusion Matrix to handle class imbalance
-
-## Results
-
-This project explored Formula 1 race data to understand what drives podium success and whether podiums can be predicted using machine learning. The analysis showed that grid position, constructor reliability (low DNF rates), driver pace (fastest laps), and race strategy are the strongest factors influencing podium chances. Notably, while starting near the front increases the odds, comeback wins from lower grid positions prove that strategy and skill also play key roles. To test predictability, models were built using 15,000+ race entries. Logistic Regression achieved ~80% accuracy with high recall (good at catching most podiums), while Random Forest reached ~84% accuracy with better precision (fewer false alarms). Overall, the results confirm that podium finishes can be explained and reasonably predicted using historical data, with trade-offs between broader detection and precise prediction.
+**Bottom line:** Podiums are set up on **Saturday (grid)** and protected in the **pit lane**.
